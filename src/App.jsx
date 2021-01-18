@@ -1,5 +1,8 @@
 import React from "react";
+import "./assets/css/style.scss";
+
+import Router from "./router";
 
 export default () => {
-  return <h1>hOLA</h1>;
+  return <Router />;
 };
