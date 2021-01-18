@@ -1,12 +1,14 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 
 import Auth from "../views/Auth/Auth";
+import Home from "../views/Home/Home";
 
 const Router = () => (
-  <BrowserRouter>
+  <HashRouter>
     <Route exact path="/" component={Auth}></Route>
-  </BrowserRouter>
+    <Route exact path="/home" component={Home}></Route>
+  </HashRouter>
 );
 
 export default Router;

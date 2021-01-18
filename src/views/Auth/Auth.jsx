@@ -1,17 +1,22 @@
 import React, { useEffect } from "react";
-
 import firebase from "../../services/firebase";
 
+import { connect } from "react-redux";
+import { setUser } from "../../store/actions";
+import { Redirect, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-export default () => {
+const Auth = (props) => {
+  const history = useHistory();
+
   const googleAuth = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().languageCode = "es";
 
     try {
       const authQuery = await firebase.auth().signInWithPopup(provider);
-      console.log(authQuery.user);
+      props.setUser(authQuery.user);
+      history.push("/home");
     } catch (error) {
       alert(`${error.code}, ${error.message}`);
     }
@@ -41,3 +46,9 @@ export default () => {
     </>
   );
 };
+
+const mapDispatchToProps = {
+  setUser,
+};
+
+export default connect(null, mapDispatchToProps)(Auth);
