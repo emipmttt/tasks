@@ -6,7 +6,7 @@ import { setUser } from "../../store/actions";
 import { Redirect, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-const Auth = (props) => {
+const Auth = ({ setUser }) => {
   const history = useHistory();
 
   const googleAuth = async () => {
@@ -15,7 +15,8 @@ const Auth = (props) => {
 
     try {
       const authQuery = await firebase.auth().signInWithPopup(provider);
-      props.setUser(authQuery.user);
+      setUser(authQuery.user);
+      localStorage.setItem("user_task", JSON.stringify(authQuery.user));
       history.push("/home");
     } catch (error) {
       alert(`${error.code}, ${error.message}`);
