@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 import CreateIcon from "../../../../assets/img/create.png";
 
-const CreateTask = ({ user, setTask }) => {
+const CreateTask = ({ user, setTask, taskList }) => {
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState(0);
   const [showInput, setShowInput] = useState(false);
@@ -27,6 +27,7 @@ const CreateTask = ({ user, setTask }) => {
 
     const task = {
       createdBy: user.uid,
+      order: taskList.length,
       createdAt: Date.now(),
       description,
       duration: Number(duration),
@@ -136,6 +137,7 @@ const CreateTask = ({ user, setTask }) => {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    taskList: state.taskList,
   };
 };
 

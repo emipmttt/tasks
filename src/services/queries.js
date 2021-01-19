@@ -5,7 +5,7 @@ export const getTask = async (uid) => {
     .firestore()
     .collection("task")
     .where("createdBy", "==", uid)
-    .orderBy("createdAt", "desc")
+    .orderBy("order", "desc")
     .get();
 
   var taskArr = [];

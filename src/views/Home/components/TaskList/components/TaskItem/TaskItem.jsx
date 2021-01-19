@@ -12,8 +12,10 @@ import TrashIcon from "../../../../../../assets/img/trash.png";
 import TimerIcon from "../../../../../../assets/img/timer.png";
 import SaveIcon from "../../../../../../assets/img/save.png";
 import CloseIcon from "../../../../../../assets/img/close.png";
+import UpIcon from "../../../../../../assets/img/up.png";
+import DownIcon from "../../../../../../assets/img/down.png";
 
-const TaskItem = ({ taskItem, setTask, user }) => {
+const TaskItem = ({ taskItem, setTask, user, next, nextId, back, backId }) => {
   const [description, setDescription] = useState(taskItem.description);
   const [duration, setDuration] = useState(taskItem.duration);
   const [showInput, setShowInput] = useState(false);
@@ -37,12 +39,33 @@ const TaskItem = ({ taskItem, setTask, user }) => {
     }
   };
 
+  const setDown = async () => {
+    const currentOrder = taskItem.order;
+    await updateTask(taskItem.id, {
+      order: Number(next.order) + 1,
+    });
+    await updateTask(next.id, {
+      order: Number(currentOrder) + 1,
+    });
+    setTask(await getTask(user.uid));
+  };
+
+  const setUp = async () => {
+    const currentOrder = taskItem.order;
+    await updateTask(taskItem.id, {
+      order: Number(back.order) - 1,
+    });
+    await updateTask(back.id, {
+      order: Number(currentOrder) - 1,
+    });
+    setTask(await getTask(user.uid));
+  };
+
   const updateTaskHandler = async (e) => {
     e.preventDefault();
 
     const task = {
       createdBy: user.uid,
-      createdAt: Date.now(),
       description,
       duration: Number(duration),
       current: Number(duration),
@@ -59,7 +82,6 @@ const TaskItem = ({ taskItem, setTask, user }) => {
       }, 2000);
     } catch (error) {
       setMessage(error.message);
-
       setLoading(false);
     }
   };
@@ -179,25 +201,17 @@ const TaskItem = ({ taskItem, setTask, user }) => {
                   <img src={EditIcon} />
                 </Button>
                 <br />
-                <Button
-                  onClick={() => {
-                    setInEdit(true);
-                  }}
-                  block
-                  className="mr-1"
-                >
-                  <img src={EditIcon} />
-                </Button>
+                {back && (
+                  <Button onClick={setUp} block className="mr-1">
+                    <img src={UpIcon} />
+                  </Button>
+                )}
                 <br />
-                <Button
-                  onClick={() => {
-                    setInEdit(true);
-                  }}
-                  block
-                  className="mr-1"
-                >
-                  <img src={EditIcon} />
-                </Button>
+                {next && (
+                  <Button onClick={setDown} block className="mr-1">
+                    <img src={DownIcon} />
+                  </Button>
+                )}
                 <br />
                 <Button onClick={trashItem} block variant="danger">
                   <img src={TrashIcon} />
@@ -218,6 +232,8 @@ const TaskItem = ({ taskItem, setTask, user }) => {
 
 TaskItem.propTypes = {
   taskItem: PropTypes.object,
+  next: PropTypes.object,
+  back: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {

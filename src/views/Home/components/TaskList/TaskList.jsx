@@ -26,8 +26,15 @@ const TaskList = ({ setTask, taskList, user }) => {
           {message}
         </Alert>
       )}
-      {taskList.map((taskItem) => (
-        <TaskItem key={taskItem.id} taskItem={taskItem} />
+      {taskList.map((taskItem, index) => (
+        <div key={taskItem.id}>
+          {/* <pre>{JSON.stringify(taskList[index + 1])}</pre> */}
+          <TaskItem
+            taskItem={taskItem}
+            next={taskList[index + 1] ? taskList[index + 1] : null}
+            back={index - 1 >= 0 ? taskList[index - 1] : null}
+          />
+        </div>
       ))}
     </>
   );
