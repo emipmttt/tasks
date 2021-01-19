@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { HashRouter, Route } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { setUser } from "../store/actions";
 
@@ -7,6 +7,7 @@ import Layout from "../components/Layout/Layout";
 
 import Auth from "../views/Auth/Auth";
 import Home from "../views/Home/Home";
+import Error404 from "../views/404";
 
 const Router = ({ setUser, user }) => {
   useEffect(() => {
@@ -18,12 +19,15 @@ const Router = ({ setUser, user }) => {
 
   return (
     <HashRouter>
-      <Route exact path="/" component={Auth}></Route>
-      {user && user.uid && (
-        <Layout>
-          <Route exact path="/home" component={Home}></Route>
-        </Layout>
-      )}
+      <Switch>
+        <Route exact path="/" component={Auth}></Route>
+        {user && user.uid && (
+          <Layout>
+            <Route exact path="/home" component={Home}></Route>
+          </Layout>
+        )}
+        <Route component={Error404}></Route>
+      </Switch>
     </HashRouter>
   );
 };

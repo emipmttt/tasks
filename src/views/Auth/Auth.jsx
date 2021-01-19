@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import firebase from "../../services/firebase";
 
 import { connect } from "react-redux";
 import { setUser } from "../../store/actions";
 import { Redirect, useHistory } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 
 const Auth = ({ setUser }) => {
   const history = useHistory();
+  const [message, setMessage] = useState();
 
   const googleAuth = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -16,10 +17,16 @@ const Auth = ({ setUser }) => {
     try {
       const authQuery = await firebase.auth().signInWithPopup(provider);
       setUser(authQuery.user);
-      localStorage.setItem("user_task", JSON.stringify(authQuery.user));
+      localStorage.setItem(
+        "user_task",
+        JSON.stringify({
+          ...authQuery.user.providerData[0],
+          uid: authQuery.user.uid,
+        })
+      );
       history.push("/home");
     } catch (error) {
-      alert(`${error.code}, ${error.message}`);
+      setMessage(`${error.code} | ${error.message} `);
     }
   };
 
@@ -41,6 +48,17 @@ const Auth = ({ setUser }) => {
             <p>Prueba Técnica para Arkon Data</p>
 
             <Button onClick={googleAuth}>Acceder con google</Button>
+            <br />
+            <br />
+            {message && (
+              <Alert
+                onClose={() => setMessage("")}
+                dismissible
+                variant="primary"
+              >
+                {message}
+              </Alert>
+            )}
           </div>
         </div>
       </div>

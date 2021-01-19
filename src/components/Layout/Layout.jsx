@@ -7,9 +7,15 @@ import {
   Form,
   FormControl,
   Button,
+  Image,
 } from "react-bootstrap";
 
-const Layout = ({ children }) => {
+import { setUser } from "../../store/actions";
+import { connect } from "react-redux";
+
+import "./Layout.scss";
+
+const Layout = ({ children, user }) => {
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -45,9 +51,25 @@ const Layout = ({ children }) => {
           </Navbar.Collapse>
         </div>
       </Navbar>
-      {children}
+      <div className="container mt-4">
+        <div className="d-flex align-items-center">
+          <Image className="profile-image" src={user.photoURL} roundedCircle />
+          <div className="ml-4">{user.displayName}</div>
+        </div>
+      </div>
+      <div className="container mt-4">{children}</div>
     </>
   );
 };
 
-export default Layout;
+const mapDispatchToProps = {
+  setUser,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

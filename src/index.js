@@ -9,6 +9,7 @@ import reducers from "./store/reducers";
 
 const initialState = {
   user: {},
+  taskList: [],
 };
 
 const store = createStore(reducers, initialState);
