@@ -179,7 +179,27 @@ const TaskItem = ({ taskItem, setTask, user }) => {
                   <img src={EditIcon} />
                 </Button>
                 <br />
-                <Button onClick={trashItem} block>
+                <Button
+                  onClick={() => {
+                    setInEdit(true);
+                  }}
+                  block
+                  className="mr-1"
+                >
+                  <img src={EditIcon} />
+                </Button>
+                <br />
+                <Button
+                  onClick={() => {
+                    setInEdit(true);
+                  }}
+                  block
+                  className="mr-1"
+                >
+                  <img src={EditIcon} />
+                </Button>
+                <br />
+                <Button onClick={trashItem} block variant="danger">
                   <img src={TrashIcon} />
                 </Button>
               </div>
