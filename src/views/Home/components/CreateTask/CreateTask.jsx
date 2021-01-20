@@ -30,8 +30,10 @@ const CreateTask = ({ user, setTask, taskList }) => {
       order: taskList.length,
       createdAt: Date.now(),
       description,
-      duration: Number(duration),
-      current: Number(duration),
+      duration: Number(duration) * 60,
+      current: Number(duration) * 60,
+      status: 0,
+      finished: false,
     };
 
     try {
@@ -49,10 +51,7 @@ const CreateTask = ({ user, setTask, taskList }) => {
 
   return (
     <>
-      <div className="mb-3">
-        <strong>Crear una tarea</strong>
-      </div>
-      <Card>
+      <Card className="mt-3 pb-3">
         <Form
           className="mt-3 mr-3 ml-3"
           autoComplete="off"
@@ -60,6 +59,9 @@ const CreateTask = ({ user, setTask, taskList }) => {
             createTaskHandler(e);
           }}
         >
+          <div className="mb-3">
+            <strong>Crear una tarea</strong>
+          </div>
           <Row>
             <Col sm={6}>
               <Form.Group controlId="formBasicEmail">

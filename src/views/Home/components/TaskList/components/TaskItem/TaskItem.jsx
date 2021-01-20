@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import firebase from "../../../../../../services/firebase";
-import { getTask, updateTask } from "../../../../../../services/queries";
+
+import secondToMinutes from "../../../../../../utils/secondsToMinutes";
+
+import {
+  getTask,
+  updateTask,
+  pauseMyTasks,
+} from "../../../../../../services/queries";
 import { setTask } from "../../../../../../store/actions";
 
 import { Form, Button, Row, Col, Alert, Card } from "react-bootstrap";
@@ -15,7 +22,7 @@ import CloseIcon from "../../../../../../assets/img/close.png";
 import UpIcon from "../../../../../../assets/img/up.png";
 import DownIcon from "../../../../../../assets/img/down.png";
 
-const TaskItem = ({ taskItem, setTask, user, next, nextId, back, backId }) => {
+const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
   const [description, setDescription] = useState(taskItem.description);
   const [duration, setDuration] = useState(taskItem.duration);
   const [showInput, setShowInput] = useState(false);
@@ -61,6 +68,14 @@ const TaskItem = ({ taskItem, setTask, user, next, nextId, back, backId }) => {
     setTask(await getTask(user.uid));
   };
 
+  const playTask = async () => {
+    await pauseMyTasks(tasks.map((taskItem) => taskItem.id));
+    await updateTask(taskItem.id, {
+      status: 1,
+    });
+    setTask(await getTask(user.uid));
+  };
+
   const updateTaskHandler = async (e) => {
     e.preventDefault();
 
@@ -89,7 +104,7 @@ const TaskItem = ({ taskItem, setTask, user, next, nextId, back, backId }) => {
   return (
     <>
       {inEdit && (
-        <Card className="mt-2">
+        <Card className="mt-2" border={taskItem.finished ? "primary" : null}>
           <Form
             className="mt-3 mr-3 ml-3"
             autoComplete="off"
@@ -181,13 +196,35 @@ const TaskItem = ({ taskItem, setTask, user, next, nextId, back, backId }) => {
         </Card>
       )}
       {!inEdit && (
-        <Card key={taskItem.id} className="mt-2 pl-3 pr-3 pb-3 pt-3">
+        <Card
+          key={taskItem.id}
+          className="mt-2 pl-3 pr-3 pb-3 pt-3"
+          border={taskItem.finished ? "primary" : null}
+        >
           <Row>
-            <Col sm={6}>{taskItem.description}</Col>
-            <Col sm={2}>{taskItem.duration}m</Col>
-            <Col sm={4}>
+            <Col xs={12} sm={3} md={5} lg={6}>
+              <p>
+                {taskItem.finished && (
+                  <strong
+                    className="text-primary "
+                    style={{ fontSize: "12px" }}
+                  >
+                    Completado
+                  </strong>
+                )}
+                <br />
+                {taskItem.description}
+              </p>{" "}
+            </Col>
+            <Col sm={2}>
+              {secondToMinutes(taskItem.current).minutes}:
+              {secondToMinutes(taskItem.current).seconds} <span> / </span>
+              {secondToMinutes(taskItem.duration).minutes}:
+              {secondToMinutes(taskItem.duration).seconds}
+            </Col>
+            <Col xs={12} sm={7} md={5} lg={4}>
               <div className="d-flex align-items-center">
-                <Button block className="mr-1">
+                <Button onClick={playTask} block className="mr-1">
                   <img src={TimerIcon} />
                 </Button>
                 <br />
@@ -234,6 +271,7 @@ TaskItem.propTypes = {
   taskItem: PropTypes.object,
   next: PropTypes.object,
   back: PropTypes.object,
+  tasks: PropTypes.array,
 };
 
 const mapStateToProps = (state) => {

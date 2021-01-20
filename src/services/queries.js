@@ -28,11 +28,17 @@ export const createTask = async (task) => {
 };
 
 export const updateTask = async (id, task) => {
-  const updateTask = await firebase
-    .firestore()
-    .collection("task")
-    .doc(id)
-    .update(task);
+  await firebase.firestore().collection("task").doc(id).update(task);
+
+  return "Actualizado correctamente";
+};
+
+export const pauseMyTasks = async (ids) => {
+  for (const id of ids) {
+    await firebase.firestore().collection("task").doc(id).update({
+      status: 0,
+    });
+  }
 
   return "Actualizado correctamente";
 };
