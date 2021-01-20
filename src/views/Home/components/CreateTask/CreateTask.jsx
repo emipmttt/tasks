@@ -46,6 +46,7 @@ const CreateTask = ({ user, setTask, taskList }) => {
       setTask(await getTask(user.uid));
       setDuration(0);
       setDescription("");
+      setShowInput(false);
       setTimeout(() => {
         setMessage("");
       }, 2000);
