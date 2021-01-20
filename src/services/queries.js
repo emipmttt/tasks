@@ -34,11 +34,19 @@ export const updateTask = async (id, task) => {
 };
 
 export const pauseMyTasks = async (ids) => {
+  // Get a new write batch
+
+  var db = firebase.firestore();
+  var batch = db.batch();
+
   for (const id of ids) {
-    await firebase.firestore().collection("task").doc(id).update({
+    // Update the population of 'SF'
+    let taskDoc = db.collection("task").doc(id);
+    batch.update(taskDoc, {
       status: 0,
     });
   }
+  await batch.commit();
 
   return "Actualizado correctamente";
 };

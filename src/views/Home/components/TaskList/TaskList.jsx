@@ -4,15 +4,7 @@ import { getTask } from "../../../../services/queries";
 import { connect } from "react-redux";
 import { setTask } from "../../../../store/actions";
 
-import {
-  Form,
-  Button,
-  Row,
-  Col,
-  Alert,
-  Card,
-  ButtonGroup,
-} from "react-bootstrap";
+import { Button, Row, Col, Alert, ButtonGroup } from "react-bootstrap";
 
 import TaskItem from "./components/TaskItem/TaskItem";
 import CurrentTask from "./components/CurrentTask/CurrentTask";
@@ -78,80 +70,82 @@ const TaskList = ({ setTask, taskList, user }) => {
         </Alert>
       )}
       {taskList.find((taskItem) => taskItem.status) && <CurrentTask />}
-      <Row>
-        <Col>
-          <section className=" mt-2">
-            <span className="mr-2">Filtros:</span>
-            <br />
-            <ButtonGroup aria-label="Basic example">
-              <Button
-                variant={filter == 0 ? "primary" : null}
-                onClick={() => {
-                  setFilter(0);
-                }}
-              >
-                Todas
-              </Button>
-              <Button
-                variant={filter == 1 ? "primary" : null}
-                onClick={() => {
-                  setFilter(1);
-                }}
-              >
-                Completadas
-              </Button>
-              <Button
-                variant={filter == 2 ? "primary" : null}
-                onClick={() => {
-                  setFilter(2);
-                }}
-              >
-                Incompletas
-              </Button>
-            </ButtonGroup>
-          </section>
-        </Col>
-        <Col>
-          <section className=" mt-2">
-            <span className="mr-2">Duración:</span>
-            <br />
-            <ButtonGroup aria-label="Basic example">
-              <Button
-                variant={duration == 0 ? "primary" : null}
-                onClick={() => {
-                  setDuration(0);
-                }}
-              >
-                Todas
-              </Button>{" "}
-              <Button
-                variant={duration == 1 ? "primary" : null}
-                onClick={() => {
-                  setDuration(1);
-                }}
-              >
-                {"< 30m"}
-              </Button>
-              <Button
-                variant={duration == 2 ? "primary" : null}
-                onClick={() => {
-                  setDuration(2);
-                }}
-              >
-                {"30m - 60m"}
-              </Button>
-              <Button
-                variant={duration == 3 ? "primary" : null}
-                onClick={() => {
-                  setDuration(3);
-                }}
-              >
-                {"> 60m"}
-              </Button>
-            </ButtonGroup>
-          </section>
-        </Col>
-      </Row>
+      {taskList.length > 0 && (
+        <Row>
+          <Col>
+            <section className=" mt-2">
+              <span className="mr-2">Filtros:</span>
+              <br />
+              <ButtonGroup aria-label="Basic example">
+                <Button
+                  variant={filter == 0 ? "primary" : null}
+                  onClick={() => {
+                    setFilter(0);
+                  }}
+                >
+                  Todas
+                </Button>
+                <Button
+                  variant={filter == 1 ? "primary" : null}
+                  onClick={() => {
+                    setFilter(1);
+                  }}
+                >
+                  Completadas
+                </Button>
+                <Button
+                  variant={filter == 2 ? "primary" : null}
+                  onClick={() => {
+                    setFilter(2);
+                  }}
+                >
+                  Incompletas
+                </Button>
+              </ButtonGroup>
+            </section>
+          </Col>
+          <Col>
+            <section className=" mt-2">
+              <span className="mr-2">Duración:</span>
+              <br />
+              <ButtonGroup aria-label="Basic example">
+                <Button
+                  variant={duration == 0 ? "primary" : null}
+                  onClick={() => {
+                    setDuration(0);
+                  }}
+                >
+                  Todas
+                </Button>{" "}
+                <Button
+                  variant={duration == 1 ? "primary" : null}
+                  onClick={() => {
+                    setDuration(1);
+                  }}
+                >
+                  {"< 30m"}
+                </Button>
+                <Button
+                  variant={duration == 2 ? "primary" : null}
+                  onClick={() => {
+                    setDuration(2);
+                  }}
+                >
+                  {"30m - 60m"}
+                </Button>
+                <Button
+                  variant={duration == 3 ? "primary" : null}
+                  onClick={() => {
+                    setDuration(3);
+                  }}
+                >
+                  {"> 60m"}
+                </Button>
+              </ButtonGroup>
+            </section>
+          </Col>
+        </Row>
+      )}
       {taskListFiltered
         .filter((taskItem) => !taskItem.status)
         .map((taskItem, index) => (

@@ -1,4 +1,5 @@
 import Chart from "chart.js";
+import numberDayToText from "../utils/numberDayToText";
 
 export default (taskList) => {
   const lastWeek = taskList.filter((taskItem) => {
@@ -17,13 +18,20 @@ export default (taskList) => {
 
   lastWeek.forEach((taskItem) => {
     const date = new Date(taskItem.finishedAt);
-    const dayName = date.toLocaleString("es-mx", { weekday: "long" });
+    const dayNumber = date.getDay();
 
-    preData[dayName] = preData[dayName] ? preData[dayName] + 1 : 1;
+    preData[dayNumber] = preData[dayNumber] ? preData[dayNumber] + 1 : 1;
   });
 
-  Object.keys(preData).forEach((key) => {
-    labels.push(key);
+  var arrData = Object.keys(preData);
+
+  arrData = arrData.sort(
+    (a, b) => preData[b].finishedAt - preData[a].finishedAt
+  );
+  console.log(arrData);
+
+  arrData.forEach((key) => {
+    labels.push(numberDayToText(key));
     data.push(preData[key]);
     backgroundColor.push("rgba(54, 162, 235, 0.2)");
     backgroundColor.push("rgba(54, 162, 235, 0.2)");

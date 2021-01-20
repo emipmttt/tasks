@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { setTask } from "../../../../../../store/actions";
-import {
-  updateTask,
-  getTask,
-  pauseMyTasks,
-} from "../../../../../../services/queries";
+import { updateTask, getTask } from "../../../../../../services/queries";
 
 import { Form, Button, Row, Col, Card } from "react-bootstrap";
 
@@ -19,6 +15,7 @@ import secondToMinutes from "../../../../../../utils/secondsToMinutes";
 const CurrentTask = ({ taskList, setTask, user }) => {
   const [currentTask, setCurrentTask] = useState({});
   const [intervalState, setIntervalState] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const findItem = taskList.find((taskItem) => taskItem.status);
@@ -29,6 +26,7 @@ const CurrentTask = ({ taskList, setTask, user }) => {
   }, [taskList]);
 
   const pauseTask = async () => {
+    setLoading(true);
     clearInterval(intervalState);
     setIntervalState(null);
     // setCurrentTask({ ...currentTask, status: 0 });
@@ -37,12 +35,16 @@ const CurrentTask = ({ taskList, setTask, user }) => {
       status: 0,
     });
     setTask(await getTask(user.uid));
+    setLoading(false);
   };
 
   const restoreTimer = async () => {
+    setLoading(true);
+
     await pauseTask();
     await updateTask(currentTask.id, { current: currentTask.duration });
     setTask(await getTask(user.uid));
+    setLoading(false);
   };
 
   const playTask = () => {
@@ -122,22 +124,42 @@ const CurrentTask = ({ taskList, setTask, user }) => {
               <Col sm={4}>
                 <div className="d-flex">
                   {currentTask.status && (
-                    <Button onClick={pauseTask} block className="mr-1">
+                    <Button
+                      onClick={pauseTask}
+                      block
+                      className="mr-1"
+                      disabled={loading}
+                    >
                       <img src={PauseIcon} />
                     </Button>
                   )}
                   {!currentTask.status && (
-                    <Button onClick={playTask} block className="mr-1">
+                    <Button
+                      onClick={playTask}
+                      block
+                      className="mr-1"
+                      disabled={loading}
+                    >
                       <img src={PlayIcon} />
                     </Button>
                   )}
 
                   <br />
-                  <Button onClick={restoreTimer} block className="mr-1">
+                  <Button
+                    onClick={restoreTimer}
+                    block
+                    className="mr-1"
+                    disabled={loading}
+                  >
                     <img src={RestoreIcon} />
                   </Button>
                   <br />
-                  <Button onClick={finishTask} block className="mr-1">
+                  <Button
+                    onClick={finishTask}
+                    block
+                    className="mr-1"
+                    disabled={loading}
+                  >
                     <img src={DoneIcon} />
                   </Button>
                 </div>

@@ -38,14 +38,18 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
 
   const trashItem = async () => {
     try {
+      setLoading(true);
       await firebase.firestore().collection("task").doc(taskItem.id).delete();
-      setTask(await getTask(user.uid)); 
+      setTask(await getTask(user.uid));
+      setLoading(false);
     } catch (error) {
       setMessage("Ha ocurrido un error");
     }
   };
 
   const setDown = async () => {
+    setLoading(true);
+
     const currentOrder = taskItem.order;
     await updateTask(taskItem.id, {
       order: Number(next.order) + 1,
@@ -54,9 +58,13 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
       order: Number(currentOrder) + 1,
     });
     setTask(await getTask(user.uid));
+
+    setLoading(false);
   };
 
   const setUp = async () => {
+    setLoading(true);
+
     const currentOrder = taskItem.order;
     await updateTask(taskItem.id, {
       order: Number(back.order) - 1,
@@ -65,14 +73,18 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
       order: Number(currentOrder) - 1,
     });
     setTask(await getTask(user.uid));
+    setLoading(false);
   };
 
   const playTask = async () => {
+    setLoading(true);
+
     await pauseMyTasks(tasks.map((taskItem) => taskItem.id));
     await updateTask(taskItem.id, {
       status: 1,
     });
     setTask(await getTask(user.uid));
+    setLoading(false);
   };
 
   const updateTaskHandler = async (e) => {
@@ -223,7 +235,12 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
             </Col>
             <Col xs={12} sm={7} md={5} lg={4}>
               <div className="d-flex align-items-center">
-                <Button onClick={playTask} block className="mr-1">
+                <Button
+                  onClick={playTask}
+                  block
+                  className="mr-1"
+                  disabled={loading}
+                >
                   <img src={TimerIcon} />
                 </Button>
                 <br />
@@ -232,24 +249,40 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
                     setInEdit(true);
                   }}
                   block
+                  disabled={loading}
                   className="mr-1"
                 >
                   <img src={EditIcon} />
                 </Button>
                 <br />
                 {back && (
-                  <Button onClick={setUp} block className="mr-1">
+                  <Button
+                    onClick={setUp}
+                    block
+                    className="mr-1"
+                    disabled={loading}
+                  >
                     <img src={UpIcon} />
                   </Button>
                 )}
                 <br />
                 {next && (
-                  <Button onClick={setDown} block className="mr-1">
+                  <Button
+                    onClick={setDown}
+                    block
+                    className="mr-1"
+                    disabled={loading}
+                  >
                     <img src={DownIcon} />
                   </Button>
                 )}
                 <br />
-                <Button onClick={trashItem} block variant="danger">
+                <Button
+                  onClick={trashItem}
+                  block
+                  variant="danger"
+                  disabled={loading}
+                >
                   <img src={TrashIcon} />
                 </Button>
               </div>
