@@ -5,7 +5,7 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "docs"),
-    filename: "bundle_[hash].js",
+    filename: "assets/js/bundle_[hash].js",
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -41,7 +41,7 @@ module.exports = {
         test: /\.(png|.jpg|.svg)$/,
         loader: "file-loader",
         options: {
-          name: "assets/[hash].[ext]",
+          name: "assets/img/[hash].[ext]",
         },
       },
     ],
@@ -52,7 +52,7 @@ module.exports = {
       filename: "./index.html",
     }),
     new MiniCssExtractPlugin({
-      filename: "./assest/[name]_[hash].css",
+      filename: "./assets/css/[name]_[hash].css",
     }),
   ],
 };
