@@ -3,10 +3,9 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { setUser } from "../store/actions";
 
-import Layout from "../components/Layout/Layout";
-
 import Auth from "../views/Auth/Auth";
 import Home from "../views/Home/Home";
+import Week from "../views/Week/Week";
 import Error404 from "../views/404";
 
 const Router = ({ setUser, user }) => {
@@ -22,9 +21,10 @@ const Router = ({ setUser, user }) => {
       <Switch>
         <Route exact path="/" component={Auth}></Route>
         {user && user.uid && (
-          <Layout>
-            <Route exact path="/home" component={Home}></Route>
-          </Layout>
+          <Route exact path="/home" component={Home}></Route>
+        )}
+        {user && user.uid && (
+          <Route exact path="/week" component={Week}></Route>
         )}
         <Route component={Error404}></Route>
       </Switch>

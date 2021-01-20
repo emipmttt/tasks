@@ -25,6 +25,10 @@ const CreateTask = ({ user, setTask, taskList }) => {
   const createTaskHandler = async (e) => {
     e.preventDefault();
 
+    if (duration == 0) {
+      return setMessage("Completa todos los campos");
+    }
+
     const task = {
       createdBy: user.uid,
       order: taskList.length,
@@ -41,6 +45,8 @@ const CreateTask = ({ user, setTask, taskList }) => {
       setMessage(await createTask(task));
       setLoading(false);
       setTask(await getTask(user.uid));
+      setDuration(0);
+      setDescription("");
       setTimeout(() => {
         setMessage("");
       }, 2000);

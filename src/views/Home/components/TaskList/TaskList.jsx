@@ -24,6 +24,9 @@ const TaskList = ({ setTask, taskList, user }) => {
   const [taskListFiltered, setTaskListFiltered] = useState(taskList);
 
   useEffect(() => {
+    setTaskListFiltered(() => taskList);
+  }, [taskList]);
+  useEffect(() => {
     const query = async () => {
       const tasksQuery = await getTask(user.uid);
       setTask(tasksQuery);
@@ -48,9 +51,7 @@ const TaskList = ({ setTask, taskList, user }) => {
     setTaskListFiltered((state) => {
       switch (duration) {
         case 1:
-          console.log(state);
           return state.filter((taskItem) => {
-            console.log(taskItem);
             return taskItem.duration < 30 * 60;
           });
 
@@ -64,8 +65,6 @@ const TaskList = ({ setTask, taskList, user }) => {
           return state.filter((taskItem) => taskItem.duration > 60 * 60);
 
         default:
-          console.log(state);
-
           return state;
       }
     });
@@ -165,6 +164,7 @@ const TaskList = ({ setTask, taskList, user }) => {
             />
           </div>
         ))}
+
       <br />
     </>
   );

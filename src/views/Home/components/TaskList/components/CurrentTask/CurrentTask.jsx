@@ -55,6 +55,7 @@ const CurrentTask = ({ taskList, setTask, user }) => {
             return (async () => {
               await updateTask(state.id, {
                 finished: true,
+                finishedAt: Date.now(),
                 status: 0,
                 current: 0,
               });
@@ -75,7 +76,6 @@ const CurrentTask = ({ taskList, setTask, user }) => {
         updateTask(state.id, {
           current: state.current,
         });
-        console.log(state);
         return state;
       });
 
@@ -92,7 +92,10 @@ const CurrentTask = ({ taskList, setTask, user }) => {
   };
 
   const finishTask = async () => {
-    await updateTask(currentTask.id, { finished: true });
+    await updateTask(currentTask.id, {
+      finished: true,
+      finishedAt: Date.now(),
+    });
     await pauseTask();
     setTask(await getTask(user.uid));
   };

@@ -39,9 +39,8 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
   const trashItem = async () => {
     try {
       await firebase.firestore().collection("task").doc(taskItem.id).delete();
-      setTask(await getTask(user.uid));
+      setTask(await getTask(user.uid)); 
     } catch (error) {
-      console.log(error);
       setMessage("Ha ocurrido un error");
     }
   };
