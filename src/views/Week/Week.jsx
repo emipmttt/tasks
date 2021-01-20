@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { setTask } from "../../store/actions";
 import { connect } from "react-redux";
 import { getTask } from "../../services/queries";
 import Layout from "../../components/Layout/Layout";
 import createChart from "../../utils/createChart";
 
-const Week = ({ user, setTask, taskList }) => {
+const Week = ({ user }) => {
   useEffect(() => {
     const getTaskMethod = async () => {
       createChart(await getTask(user.uid));
@@ -28,8 +27,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  setTask,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Week);
+export default connect(mapStateToProps, null)(Week);

@@ -6,6 +6,7 @@ import { setUser } from "../store/actions";
 import Auth from "../views/Auth/Auth";
 import Home from "../views/Home/Home";
 import Week from "../views/Week/Week";
+import About from "../views/About/About";
 import Error404 from "../views/404";
 
 const Router = ({ setUser, user }) => {
@@ -26,6 +27,7 @@ const Router = ({ setUser, user }) => {
         {user && user.uid && (
           <Route exact path="/week" component={Week}></Route>
         )}
+        <Route exact path="/about" component={About}></Route>
         <Route component={Error404}></Route>
       </Switch>
     </HashRouter>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import firebase from "../../../../services/firebase";
 import { getTask, createTask } from "../../../../services/queries";
 
 import { setTask } from "../../../../store/actions/";

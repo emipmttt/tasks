@@ -1,15 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-import {
-  Navbar,
-  NavDropdown,
-  Nav,
-  Form,
-  FormControl,
-  Button,
-  Image,
-} from "react-bootstrap";
+import { Navbar, Nav, Image } from "react-bootstrap";
 
 import { setUser } from "../../store/actions";
 import { connect } from "react-redux";
@@ -27,6 +18,7 @@ const Layout = ({ children, user }) => {
             <Nav className="mr-auto">
               <Nav.Link href="#/home">Inicio</Nav.Link>
               <Nav.Link href="#/week">Semana</Nav.Link>
+              <Nav.Link href="#/about">About</Nav.Link>
               <Nav.Link href="#/">Salir</Nav.Link>
               {/* <Nav.Link href="#/week">Información</Nav.Link> */}
             </Nav>

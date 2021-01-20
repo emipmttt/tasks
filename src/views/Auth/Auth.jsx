@@ -3,7 +3,7 @@ import firebase from "../../services/firebase";
 
 import { connect } from "react-redux";
 import { setUser } from "../../store/actions";
-import { Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 
 const Auth = ({ setUser }) => {
@@ -43,9 +43,12 @@ const Auth = ({ setUser }) => {
               Gestiona tu lista de cosas por hacer, administra su orden,
               <br />
               cronometra la duración de tus actividades, obtén reportes <br />
-              semanales, persiste tus datos creando tu cuenta de google <br />
+              semanales, persiste tus datos creando tu cuenta con google <br />
             </p>
             <p>Prueba Técnica para Arkon Data</p>
+            <p>
+              <Link to="/about">Acerca de este proyecto</Link>
+            </p>
 
             <Button onClick={googleAuth}>Acceder con google</Button>
             <br />
