@@ -18,6 +18,8 @@ const CurrentTask = ({ taskList, setTask, user }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // encontrar la tarea que actualmente se reproduce
+    // el timer
     const findItem = taskList.find((taskItem) => taskItem.status);
     if (findItem && findItem.id) {
       setCurrentTask(findItem);
@@ -25,6 +27,7 @@ const CurrentTask = ({ taskList, setTask, user }) => {
     }
   }, [taskList]);
 
+  // pausar el temporizador
   const pauseTask = async () => {
     setLoading(true);
     clearInterval(intervalState);
@@ -37,6 +40,8 @@ const CurrentTask = ({ taskList, setTask, user }) => {
     setTask(await getTask(user.uid));
     setLoading(false);
   };
+
+  // reiniciar el temporizador
 
   const restoreTimer = async () => {
     setLoading(true);

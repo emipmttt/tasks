@@ -1,3 +1,5 @@
+// componente para generar data aleatoria
+// para probar la herramient
 import React from "react";
 import { connect } from "react-redux";
 
@@ -12,15 +14,22 @@ import { Button } from "react-bootstrap";
 const DemoData = ({ user, taskList, setTask }) => {
   const createDemoData = async () => {
     const generateDemoData = async (index) => {
+      // obtener el rango de tiempo (los
+      // los últimos siete días)
       let initialDate = new Date();
       initialDate.setDate(initialDate.getDate() - 7);
       initialDate = initialDate.getTime();
       let finalDate = Date.now();
 
+      // fecha aleatoria entre hace siete días y hoy
       const randomDay = new Date(randomNumber(initialDate, finalDate));
 
+      // duración aleatoria
       const duration = randomNumber(0, 120 * 60);
 
+      // generar descripciones automaticas
+      // solicitando texto aleatorio desde una api
+      // si la api falla simplemente añade tarea de prueba
       var description;
 
       try {
@@ -32,6 +41,8 @@ const DemoData = ({ user, taskList, setTask }) => {
       } catch (error) {
         description = "Tarea de prueba";
       }
+
+      // tarea con todos los datos
 
       const task = {
         createdBy: user.uid,
@@ -48,6 +59,8 @@ const DemoData = ({ user, taskList, setTask }) => {
       return task;
     };
 
+    // añadiendo 50 datos de prueba
+
     const db = firebase.firestore();
 
     var batch = db.batch();
@@ -56,7 +69,6 @@ const DemoData = ({ user, taskList, setTask }) => {
       batch.set(newTask, await generateDemoData(i));
     }
 
-    // Commit the batch
     await batch.commit();
     setTask(await getTask(user.uid));
   };

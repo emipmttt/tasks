@@ -16,17 +16,25 @@ const CreateTask = ({ user, setTask, taskList }) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    // validar si se selecciona la opción
+    // "costum" para en vez de mostrar un select
+    // con las duraciones predeterminadas
+    // se pueda escribir manualmente una
     if (duration == "costum") {
       setShowInput(true);
     }
   }, [duration]);
 
   const createTaskHandler = async (e) => {
+    // funcion para crear una tarea
     e.preventDefault();
 
+    // validar que la duración no sea igual a 0
     if (duration == 0) {
       return setMessage("Completa todos los campos");
     }
+
+    // task es el modelo de una tarea
 
     const task = {
       createdBy: user.uid,
@@ -40,13 +48,22 @@ const CreateTask = ({ user, setTask, taskList }) => {
     };
 
     try {
+      // enviando la tarea
+
+      // informando que el sistema está cargando
+      // así los inputs y buttons se ponen disabled
       setLoading(true);
+      // creando tarea, retornando y mostrando el mensaje
       setMessage(await createTask(task));
+      // terminando de cargar
       setLoading(false);
+      // recargando las tareas
       setTask(await getTask(user.uid));
+      // volviendo a los valores, predeterminados
       setDuration(0);
       setDescription("");
       setShowInput(false);
+      // borrando mensaje en dos segundos
       setTimeout(() => {
         setMessage("");
       }, 2000);
@@ -70,6 +87,7 @@ const CreateTask = ({ user, setTask, taskList }) => {
           </div>
           <Row>
             <Col sm={6}>
+              {/* input de descripción */}
               <Form.Group controlId="formBasicEmail">
                 <Form.Control
                   required
@@ -85,6 +103,8 @@ const CreateTask = ({ user, setTask, taskList }) => {
               </Form.Group>
             </Col>
             <Col sm={4}>
+              {/* input de duración, validando si se decidió
+              usar el select o escribir el número de minutos */}
               {showInput && (
                 <Form.Group controlId="exampleForm.ControlSelect1">
                   <Form.Control
@@ -126,11 +146,14 @@ const CreateTask = ({ user, setTask, taskList }) => {
               )}
             </Col>
             <Col sm={2}>
+              {/* botón para crear la tarea */}
+
               <Button type="submit" block>
                 <img src={CreateIcon} />
               </Button>
             </Col>
           </Row>
+          {/* alert para mostrar avisos */}
           {message && (
             <Alert onClose={() => setMessage("")} dismissible variant="primary">
               {message}

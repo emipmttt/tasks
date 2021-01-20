@@ -1,3 +1,5 @@
+// pantalla de autenticación
+
 import React, { useState } from "react";
 import firebase from "../../services/firebase";
 
@@ -11,11 +13,17 @@ const Auth = ({ setUser }) => {
   const [message, setMessage] = useState();
 
   const googleAuth = async () => {
+    // atenticando a través de firebase
+    // con el proveedor de google
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().languageCode = "es";
 
     try {
       const authQuery = await firebase.auth().signInWithPopup(provider);
+
+      // si el usuario se pudo autenticar correctamente
+      // lo almacenamos en el localStorage y también
+      // en el stado
       setUser(authQuery.user);
       localStorage.setItem(
         "user_task",
@@ -24,8 +32,11 @@ const Auth = ({ setUser }) => {
           uid: authQuery.user.uid,
         })
       );
+      // redireccionar al home
       history.push("/home");
     } catch (error) {
+      // setear el error si ocurre para
+      // renderizar en html
       setMessage(`${error.code} | ${error.message} `);
     }
   };
@@ -68,6 +79,8 @@ const Auth = ({ setUser }) => {
     </>
   );
 };
+
+// consumiendo store
 
 const mapDispatchToProps = {
   setUser,

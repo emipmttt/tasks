@@ -1,13 +1,16 @@
 import firebase from "firebase/app";
 
-// firebase is a serverless provider
-// we use it to authentication and database
-// in this file, we can found the config
-// and connection to the sdk
+// firebase es un proveedor de servicios tipo serverless
+// en este archivo se importa y se configura
+// el proyecto con un proyecto de firebase
+// utilizaremos athentication y firestore, la base de datos
+// de firebase
 
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/analytics";
+
+// api keys
 
 const firebaseConfig = {
   apiKey: "AIzaSyC8mnO1Z5arLZZSUG7u5r4l1Jgc9MGiwUo",
