@@ -1,3 +1,4 @@
+// componente para una tarea individual
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -30,11 +31,16 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
   const [message, setMessage] = useState("");
   const [inEdit, setInEdit] = useState(false);
 
+  // validar si se va a mostrar el input o el select
+  // para asignar la duración de la tarea
+  // en la edición
   useEffect(() => {
     if (duration == "costum") {
       setShowInput(true);
     }
   }, [duration]);
+
+  // eliminar la tarea
 
   const trashItem = async () => {
     try {
@@ -46,6 +52,8 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
       setMessage("Ha ocurrido un error");
     }
   };
+
+  // reaordenar hacia abajo
 
   const setDown = async () => {
     setLoading(true);
@@ -62,6 +70,8 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
     setLoading(false);
   };
 
+  // reordenar hacia arriba
+
   const setUp = async () => {
     setLoading(true);
 
@@ -76,6 +86,8 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
     setLoading(false);
   };
 
+  // reproducir timer de la tarea
+
   const playTask = async () => {
     setLoading(true);
 
@@ -86,6 +98,8 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
     setTask(await getTask(user.uid));
     setLoading(false);
   };
+
+  // actualizar tarea
 
   const updateTaskHandler = async (e) => {
     e.preventDefault();
@@ -114,6 +128,7 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
 
   return (
     <>
+      {/* html para cuando se selecciona la edición */}
       {inEdit && (
         <Card className="mt-2" border={taskItem.finished ? "primary" : null}>
           <Form
@@ -206,6 +221,7 @@ const TaskItem = ({ taskItem, setTask, user, next, back, tasks }) => {
           </Form>
         </Card>
       )}
+      {/* html para cuando no hay edición */}
       {!inEdit && (
         <Card
           key={taskItem.id}

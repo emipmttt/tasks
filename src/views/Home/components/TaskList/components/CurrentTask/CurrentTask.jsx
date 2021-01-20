@@ -52,6 +52,8 @@ const CurrentTask = ({ taskList, setTask, user }) => {
     setLoading(false);
   };
 
+  // Reproducir temporizador
+
   const playTask = () => {
     setIntervalState(() =>
       setInterval(() => {
@@ -98,6 +100,8 @@ const CurrentTask = ({ taskList, setTask, user }) => {
     updateCounter();
   };
 
+  // marcar tarea como finalizada
+
   const finishTask = async () => {
     await updateTask(currentTask.id, {
       finished: true,
@@ -128,6 +132,7 @@ const CurrentTask = ({ taskList, setTask, user }) => {
               </Col>
               <Col sm={4}>
                 <div className="d-flex">
+                  {/* botón para pausar */}
                   {currentTask.status && (
                     <Button
                       onClick={pauseTask}
@@ -138,6 +143,7 @@ const CurrentTask = ({ taskList, setTask, user }) => {
                       <img src={PauseIcon} />
                     </Button>
                   )}
+                  {/* botón para reproducir */}
                   {!currentTask.status && (
                     <Button
                       onClick={playTask}
@@ -150,6 +156,7 @@ const CurrentTask = ({ taskList, setTask, user }) => {
                   )}
 
                   <br />
+                  {/* botón para reiniciar el timer */}
                   <Button
                     onClick={restoreTimer}
                     block
@@ -159,6 +166,8 @@ const CurrentTask = ({ taskList, setTask, user }) => {
                     <img src={RestoreIcon} />
                   </Button>
                   <br />
+                  {/* botón para marcar como completada la tarea */}
+
                   <Button
                     onClick={finishTask}
                     block

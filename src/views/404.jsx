@@ -1,3 +1,4 @@
+// pantalla default
 import React from "react";
 
 export default () => (
@@ -6,7 +7,7 @@ export default () => (
       <div className="row justify-content-center">
         <div className="col-md-12 text-center">
           <span className="display-1 d-block">Ups</span>
-          <br/>
+          <br />
           <div className="mb-4 lead">Este sitio no está disponible para ti</div>
           <a href="/" className="btn btn-link">
             Iniciar Sesión

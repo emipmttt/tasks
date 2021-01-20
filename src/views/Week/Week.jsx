@@ -1,3 +1,5 @@
+//  componente de gráfica
+
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getTask } from "../../services/queries";
@@ -5,6 +7,7 @@ import Layout from "../../components/Layout/Layout";
 import createChart from "../../utils/createChart";
 
 const Week = ({ user }) => {
+  // crear el componente de graficos
   useEffect(() => {
     const getTaskMethod = async () => {
       createChart(await getTask(user.uid));

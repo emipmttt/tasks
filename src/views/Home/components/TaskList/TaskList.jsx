@@ -1,3 +1,5 @@
+// lista completa de tareas
+
 import React, { useState, useEffect } from "react";
 import { getTask } from "../../../../services/queries";
 
@@ -15,9 +17,12 @@ const TaskList = ({ setTask, taskList, user }) => {
   const [duration, setDuration] = useState(0);
   const [taskListFiltered, setTaskListFiltered] = useState(taskList);
 
+  // asignar las tareas al objeto de filtrado
   useEffect(() => {
     setTaskListFiltered(() => taskList);
   }, [taskList]);
+
+  // obtener las tareas
   useEffect(() => {
     const query = async () => {
       const tasksQuery = await getTask(user.uid);
@@ -27,7 +32,10 @@ const TaskList = ({ setTask, taskList, user }) => {
     query();
   }, []);
 
+  // filtrar las tareas
   useEffect(() => {
+    // filtrado por tipo
+
     setTaskListFiltered((state) => {
       switch (filter) {
         case 1:
@@ -40,6 +48,8 @@ const TaskList = ({ setTask, taskList, user }) => {
           return taskList;
       }
     });
+    // filtrado por duración
+
     setTaskListFiltered((state) => {
       switch (duration) {
         case 1:
@@ -64,15 +74,19 @@ const TaskList = ({ setTask, taskList, user }) => {
 
   return (
     <>
+      {/* mostrar mensajes */}
       {message && (
         <Alert onClose={() => setMessage("")} dismissible variant="primary">
           {message}
         </Alert>
       )}
+      {/* si hay una tarea comenzada mostrar el componente current task */}
       {taskList.find((taskItem) => taskItem.status) && <CurrentTask />}
+      {/* mostrar la lista de tareas si taskList tiene tareas */}
       {taskList.length > 0 && (
         <Row>
           <Col>
+            {/* sección de filtros */}
             <section className=" mt-2">
               <span className="mr-2">Filtros:</span>
               <br />
@@ -146,6 +160,7 @@ const TaskList = ({ setTask, taskList, user }) => {
           </Col>
         </Row>
       )}
+      {/* lista de tareas */}
       {taskListFiltered
         .filter((taskItem) => !taskItem.status)
         .map((taskItem, index) => (
